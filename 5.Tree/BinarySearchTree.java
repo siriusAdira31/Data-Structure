@@ -62,7 +62,7 @@ public class BinarySearchTree {
 
 	/*
 	
-	###########  Insertion in BST : 2 ways ==> 1. Iterative , 2. Recursive  ###########
+		Insertion in BST : 2 ways ==> 1. Iterative , 2. Recursive
 
 	*/
 
@@ -129,7 +129,9 @@ public class BinarySearchTree {
 
 
 	/*
-		########### Search in BST : Approach => 1. Iterative 2. Recursive
+
+		Search in BST : Approach => 1. Iterative 2. Recursive
+		
 	*/
 
 
