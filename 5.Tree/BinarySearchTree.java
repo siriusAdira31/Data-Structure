@@ -62,7 +62,7 @@ public class BinarySearchTree {
 
 	/*
 	
-	Insertion in BST : 2 ways ==> 1. Iterative , 2. Recursive
+	###########  Insertion in BST : 2 ways ==> 1. Iterative , 2. Recursive  ###########
 
 	*/
 
@@ -126,6 +126,57 @@ public class BinarySearchTree {
 	}
 
 
+
+
+	/*
+		########### Search in BST : Approach => 1. Iterative 2. Recursive
+	*/
+
+
+	// Iterative approach
+
+	public Node searchIteratively(int searchData){
+		if(isEmpty())
+			return null;
+
+		Node currentNode = this.root;
+		
+		while(currentNode != null){
+			if(currentNode.getData() == searchData)
+				return currentNode;
+			else if(searchData < currentNode.getData())
+				currentNode = currentNode.getLeft();
+			else 
+				currentNode = currentNode.getRight();
+		}
+
+		System.out.println("------ DATA NOT FOUND IN BST -------");
+		return null;
+	}
+
+
+	// Recursive approach
+	public Node searchRecursively(int searchData){
+		Node node = searchDataRecursively(this.root, searchData);
+
+		return (node != null) ? node : null;
+	}
+
+	public Node searchDataRecursively(Node current, int searchData){
+		if(current == null || current.getData() == searchData)
+			return current;
+
+		if(searchData < current.getData()){
+			current = searchDataRecursively(current.getLeft(),searchData);
+		}else{
+			current = searchDataRecursively(current.getRight(),searchData);
+		}
+
+		return current;
+	}
+
+
+
 	public static void main(String[] args){
 		BinarySearchTree bst = new BinarySearchTree();
 		bst.insertIteratively(5);
@@ -146,5 +197,19 @@ public class BinarySearchTree {
 		System.out.println();
 		System.out.print("Recursive insertion done :::   ");
 		bst.printBST(bst.root);
+
+
+		// Search Iteratively :
+		Node result1 = bst.searchIteratively(5);
+
+		System.out.println();System.out.println();
+		System.out.println("Search 5 => "+ ((result1 != null) ? "FOUND" : "NOT FOUND"));
+
+		// Search Recursively :
+
+		Node result2 = bst.searchRecursively(11);
+
+		System.out.println();System.out.println();
+		System.out.println("Search 11 => "+ ((result2 != null) ? "FOUND" : "NOT FOUND"));
 	}
 }
