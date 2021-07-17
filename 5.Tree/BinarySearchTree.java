@@ -131,7 +131,7 @@ public class BinarySearchTree {
 	/*
 
 		Search in BST : Approach => 1. Iterative 2. Recursive
-		
+
 	*/
 
 
@@ -178,6 +178,120 @@ public class BinarySearchTree {
 	}
 
 
+	/*
+		DELETE NODE => 
+
+		3 cases :
+
+		1. leaf Node (left & right child are NULL)
+		2. Node with one child (either left or right)
+		3. Node with both the children (left & right)
+	*/
+
+	
+	public boolean deleteNode(int data, Node current){
+
+		if(root == null) {
+			return false;
+		}
+
+		Node parent = null;
+		while(current != null && current.getData() != data){
+			parent = current;
+
+			if(current.getData() > data){
+				current = current.getLeft();
+			}else{
+				current = current.getRight();
+			}
+		}
+
+		if(current == null){
+			return false;
+		}else if (current.getLeft() == null && current.getRight() == null){
+			if(root.getData() == current.getData()){
+				setRoot(null);
+			}else if(current.getData() < parent.getData()){
+				parent.setLeft(null);
+			}else{
+				parent.setRight(null);
+			}
+
+			return true;
+		}else if(current.getRight() == null){
+			if(root.getData() == current.getData()){
+				setRoot(current.getLeft());
+			}else if(current.getData() < parent.getData()){
+				parent.setLeft(current.getLeft());
+			}else{
+				parent.setRight(current.getLeft());
+			}
+
+			return true;
+		}else if(current.getLeft() == null){
+			if(root.getData() == current.getData()){
+				setRoot(current.getRight());
+			}else if(current.getData() < parent.getData()){
+				parent.setLeft(current.getRight());
+			}else{
+				parent.setRight(current.getRight());
+			}
+
+			return true;
+		}else {
+			Node lefMostNode = findLeastNode(current.getRight());
+
+			int leastNodeData = lefMostNode.getData();
+			deleteNode(leastNodeData,root);
+
+			current.setData(leastNodeData);
+			return true;
+		}
+	}	
+
+
+	public Node findLeastNode(Node current){
+
+		Node temp = current;
+
+		while(temp.getLeft() != null){
+			temp = temp.getLeft();
+		}
+
+		return temp;
+	}
+
+
+	public void inOrderTraversal(Node current){
+
+		if(current == null)
+			return;
+		
+		inOrderTraversal(current.getLeft());
+		System.out.print(current.getData()+", ");
+		inOrderTraversal(current.getRight());
+	}	
+
+	public void preOrderTraversal(Node current){
+
+		if(current == null)
+			return;
+
+		System.out.print(current.getData()+", ");
+		preOrderTraversal(current.getLeft());
+		preOrderTraversal(current.getRight());	
+	}	
+
+	public void postOrderTraversal(Node current){
+
+		if(current == null)
+			return;
+
+		postOrderTraversal(current.getLeft());
+		postOrderTraversal(current.getRight());	
+		System.out.print(current.getData()+", ");
+	}	
+
 
 	public static void main(String[] args){
 		BinarySearchTree bst = new BinarySearchTree();
@@ -201,6 +315,24 @@ public class BinarySearchTree {
 		bst.printBST(bst.root);
 
 
+
+	    //Traversal :
+
+	    //1.in-order (left-root-right)
+	    System.out.println();
+		System.out.println();
+		bst.inOrderTraversal(bst.getRoot());
+
+		//1.pre-order (root-left-right)
+		System.out.println();
+		System.out.println();
+		bst.preOrderTraversal(bst.getRoot());
+
+		//1.post-order (left-right-root)
+		System.out.println();
+		System.out.println();
+		bst.postOrderTraversal(bst.getRoot());
+
 		// Search Iteratively :
 		Node result1 = bst.searchIteratively(5);
 
@@ -213,5 +345,22 @@ public class BinarySearchTree {
 
 		System.out.println();System.out.println();
 		System.out.println("Search 11 => "+ ((result2 != null) ? "FOUND" : "NOT FOUND"));
+
+		System.out.println();System.out.println();
+		
+		System.out.println("DELETE 10" + bst.deleteNode(10,bst.root));
+		System.out.print("After Deletion of node with 1 child - 10 :::   ");
+		bst.printBST(bst.root);
+
+		System.out.println();System.out.println();
+		
+		System.out.println("DELETE 5" + bst.deleteNode(5,bst.root));
+		System.out.print("After Deletion of Root - 5 :::   ");
+		bst.printBST(bst.root);
+
+
+		System.out.println("DELETE 5" + bst.deleteNode(1,bst.root));
+		System.out.print("After Deletion of leaf node - 1 :::   ");
+		bst.printBST(bst.root);
 	}
 }
